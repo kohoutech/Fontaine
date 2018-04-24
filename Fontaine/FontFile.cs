@@ -34,42 +34,43 @@ namespace Fontaine
             SourceFile source = new SourceFile(filename);
             System.IO.StreamWriter outfile = new System.IO.StreamWriter("dump.txt");
 
-            String line = null;
-            String ascii = null;
-            byte[] bytes = source.srcbuf;
-            for (int i = 0; i < bytes.Length;  )
-            {
-
-                if ((i % 16) == 0)
-                {
-                    line = i.ToString("X8") + " ";
-                    ascii = "  ";
-                }
-                line += " " + bytes[i].ToString("X2");
-                if ((bytes[i] >= 0x020) && (bytes[i] < 0x7f))
-                {
-                    ascii += (char)bytes[i];
-                }
-                else
-                {
-                    ascii += '.';
-                }
-                i++;
-                if ((i % 16) == 0)
-                {
-                 outfile.WriteLine(line + ascii);   
-                }
-            }
-            outfile.Close();
-            Console.WriteLine("done!");
-
-            return null;
+            FontFace face = new FontFace();
+            readOffsetTable(source, face);
+            readTableRecords(source, face);
+            return face;
         }
+
+        private static void readOffsetTable(SourceFile source, FontFace face)
+        {
+            int ver = (int)source.getFour();
+            int numtbls = (int)source.getTwo();
+            int range = (int)source.getTwo();
+            int sel = (int)source.getTwo();
+            int shift = (int)source.getTwo();
+            face.offsetTable = new OffsetTable(ver, numtbls, range, sel, shift);
+        }
+
+        private static void readTableRecords(SourceFile source, FontFace face)
+        {
+            face.tableRecs = new List<TableRecord>(face.offsetTable.numTables);
+
+            for (int i = 0; i < face.offsetTable.numTables; i++)
+            {
+                string tag = source.getAsciiString(4);
+                uint checksum = source.getFour();
+                uint offset = source.getFour();
+                uint length = source.getFour();
+                TableRecord tablerec = new TableRecord(tag, checksum, offset, length);
+                face.tableRecs.Add(tablerec);
+            }
+        }
+
     }
 
 
 //- file i/o ------------------------------------------------------------------
 
+    //byte ordering is big-endian
     public class SourceFile
     {
         public Byte[] srcbuf;
@@ -104,18 +105,18 @@ namespace Fontaine
 
         public uint getTwo()
         {
-            byte b = srcbuf[srcpos++];
             byte a = srcbuf[srcpos++];
+            byte b = srcbuf[srcpos++];
             uint result = (uint)(a * 256 + b);
             return result;
         }
 
         public uint getFour()
         {
-            byte d = srcbuf[srcpos++];
-            byte c = srcbuf[srcpos++];
-            byte b = srcbuf[srcpos++];
             byte a = srcbuf[srcpos++];
+            byte b = srcbuf[srcpos++];
+            byte c = srcbuf[srcpos++];
+            byte d = srcbuf[srcpos++];
             uint result = (uint)(a * 256 + b);
             result = (result * 256 + c);
             result = (result * 256 + d);
@@ -149,6 +150,5 @@ namespace Fontaine
     }
 
 }
-
 
 //Console.WriteLine("there's no sun in the shadow of the wizard");

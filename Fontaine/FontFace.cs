@@ -26,5 +26,42 @@ namespace Fontaine
 {
     public class FontFace
     {
+        public OffsetTable offsetTable;
+        public List<TableRecord> tableRecs;
     }
+
+    public class OffsetTable 
+    {
+        public int sfntVersion;
+        public int numTables;
+        public int searchRange;
+        public int entrySelector;
+        public int rangeShift;
+
+        public OffsetTable(int ver, int numtbls, int range, int sel, int shift)
+        {
+            sfntVersion = ver;
+            numTables = numtbls;
+            searchRange = range;
+            entrySelector = sel;
+            rangeShift = shift;
+        }
+    }
+
+    public class TableRecord
+    {
+        public String tag;
+        public uint checkSum;
+        public uint offset;
+        public uint length;        
+
+        public TableRecord(String _tag, uint _check, uint _ofs, uint _len)
+        {
+            tag = _tag;
+            checkSum = _check;
+            offset = _ofs;
+            length = _len;            
+        }
+    }
+
 }
