@@ -28,6 +28,7 @@ namespace Fontaine
     {
         public OffsetTable offsetTable;
         public List<TableRecord> tableRecs;
+        public List<Table> tables;
     }
 
     public class OffsetTable 
@@ -62,6 +63,117 @@ namespace Fontaine
             offset = _ofs;
             length = _len;            
         }
+    }
+
+    public class Table
+    {
+        public byte[] data;
+
+        public void parseData()
+        {
+        }
+    }
+
+    public class CMapTable : Table
+    {
+        public int version;
+        public int numTables;
+    }
+
+    public class FontHeaderTable : Table
+    {
+    }
+
+    public class HorzHeaderTable : Table
+    {
+    }
+
+    public class HorzMetricsTable : Table
+    {
+    }
+
+    public class MaximumProfileTable : Table
+    {
+    }
+
+    public class NamingTable : Table
+    {
+    }
+
+    public class OS2MetricsTable : Table
+    {
+    }
+
+    public class PostscriptTable : Table
+    {
+    }
+
+    public class ControlValueTable : Table
+    {
+    }
+
+    public class FontProgramTable : Table
+    {
+    }
+
+    public class GlyphDataTable : Table
+    {
+    }
+
+    public class LocationIndexTable : Table
+    {
+    }
+
+    public class ControlValueProgramTable : Table
+    {
+    }
+
+    public class GridScanProcedureTable : Table
+    {
+    }
+
+    public class GlyphPositioningTable : Table
+    {
+    }
+
+    public class GlyphDefTable : Table
+    {
+    }
+
+    public class GlyphSubstituteTable : Table
+    {
+    }
+
+    public class JustificationTable : Table
+    {
+    }
+
+    public class DigitalSignatureTable : Table
+    {
+    }
+
+    public class HorzDevMetricsTable : Table
+    {
+    }
+
+    public class KerningTable : Table
+    {
+    }
+
+    public class LinearThresholdTable : Table
+    {
+    }
+
+    public class MetadataTable : Table
+    {
+    }
+
+    public class PLCFiveTable : Table
+    {
+    }
+
+    public class VertDevMetricsTable : Table
+    {
     }
 
 }

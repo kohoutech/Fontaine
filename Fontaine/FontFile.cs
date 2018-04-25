@@ -37,6 +37,7 @@ namespace Fontaine
             FontFace face = new FontFace();
             readOffsetTable(source, face);
             readTableRecords(source, face);
+            readTables(source, face);
             return face;
         }
 
@@ -65,6 +66,108 @@ namespace Fontaine
             }
         }
 
+        private static void readTables(SourceFile source, FontFace face)
+        {
+            face.tables = new List<Table>();
+            Table tbl = null;
+                        
+            foreach (TableRecord rec in face.tableRecs)
+            {
+                switch (rec.tag)
+                {
+                        //required tables
+                    case "cmap":
+                        tbl = new CMapTable();
+                        break;
+                    case "head":
+                        tbl = new FontHeaderTable();
+                            break;
+                    case "hhea":
+                        tbl = new HorzHeaderTable();
+                        break;
+                    case "hmtx":
+                        tbl = new HorzMetricsTable();
+                        break;
+                    case "maxp":
+                        tbl = new  MaximumProfileTable();
+                        break;
+                    case "name":
+                        tbl = new NamingTable();
+                        break;
+                    case "OS/2":
+                        tbl = new OS2MetricsTable();
+                        break;
+                    case "post":
+                        tbl = new PostscriptTable();
+                        break;
+
+                        //true type outline tables
+                    case "cvt ":
+                        tbl = new ControlValueTable();
+                        break;
+                    case "fpgm":
+                        tbl = new FontProgramTable();
+                        break;
+                    case "glyf":
+                        tbl = new GlyphDataTable();
+                        break;
+                    case "loca":
+                        tbl = new LocationIndexTable();
+                        break;
+                    case "prep":
+                        tbl = new ControlValueProgramTable();
+                        break;
+                    case "gasp":
+                        tbl = new GridScanProcedureTable();
+                        break;
+
+                        //advanced typographic tables
+                    case "GPOS":
+                        tbl = new GlyphPositioningTable();
+                        break;
+                    case "GDEF":
+                        tbl = new GlyphDefTable();
+                        break;
+                    case "GSUB": 
+                        tbl = new GlyphSubstituteTable(); 
+                        break;
+                    case "JSTF":
+                        tbl = new JustificationTable();
+                        break;
+
+                        //other tables
+                    case "DSIG":
+                        tbl = new DigitalSignatureTable();
+                        break;
+                    case "hdmx":
+                        tbl = new HorzDevMetricsTable();
+                        break;
+                    case "kern":
+                        tbl = new KerningTable();
+                        break;
+                    case "LTSH":
+                        tbl = new LinearThresholdTable();
+                        break;
+                    case "meta":
+                        tbl = new MetadataTable();
+                        break;
+                    case "PCLT":
+                        tbl = new PLCFiveTable();
+                        break;
+                    case "VDMX":
+                        tbl = new VertDevMetricsTable();
+                        break;
+
+                    default:
+                        tbl = new Table();
+                        break;
+                }
+                tbl.data = source.getRange(rec.offset, rec.length);
+                tbl.parseData();
+                face.tables.Add(tbl);
+
+            }
+        }
     }
 
 
