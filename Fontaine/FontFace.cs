@@ -65,11 +65,13 @@ namespace Fontaine
         }
     }
 
+//-----------------------------------------------------------------------------
+
     public class Table
     {
         public byte[] data;
 
-        public void parseData()
+        public virtual void parseData()
         {
         }
     }
@@ -80,36 +82,45 @@ namespace Fontaine
         public int numTables;
     }
 
-    public class FontHeaderTable : Table
-    {
-    }
-
-    public class HorzHeaderTable : Table
-    {
-    }
-
-    public class HorzMetricsTable : Table
-    {
-    }
-
-    public class MaximumProfileTable : Table
-    {
-    }
-
-    public class NamingTable : Table
-    {
-    }
-
-    public class OS2MetricsTable : Table
-    {
-    }
-
-    public class PostscriptTable : Table
-    {
-    }
-
     public class ControlValueTable : Table
     {
+    }
+
+    public class ControlValueProgramTable : Table
+    {
+    }
+
+    public class DigitalSignatureTable : Table
+    {
+    }
+
+    public class FontHeaderTable : Table
+    {
+        int majorVersion;
+        int minorVersion;
+        double fontRevision;
+        int checkSumAdjustment;
+        int magicNumber;
+        int flags;
+        int unitsPerEm;
+        DateTime created;
+        DateTime modified;
+        int xMin;
+        int yMin;
+        int xMax;
+        int yMax;
+        int macStyle;
+        int lowestRecPPEM;
+        int fontDirectionHint;
+        int indexToLocFormat;
+        int glyphDataFormat;
+
+        public override void parseData()
+        {
+            majorVersion = data[0] * 256 + data[1];
+            minorVersion = data[2] * 256 + data[3];
+        }
+
     }
 
     public class FontProgramTable : Table
@@ -120,15 +131,7 @@ namespace Fontaine
     {
     }
 
-    public class LocationIndexTable : Table
-    {
-    }
-
-    public class ControlValueProgramTable : Table
-    {
-    }
-
-    public class GridScanProcedureTable : Table
+    public class GlyphDefTable : Table
     {
     }
 
@@ -136,23 +139,27 @@ namespace Fontaine
     {
     }
 
-    public class GlyphDefTable : Table
-    {
-    }
-
     public class GlyphSubstituteTable : Table
     {
     }
 
-    public class JustificationTable : Table
+    public class GridScanProcedureTable : Table
     {
     }
 
-    public class DigitalSignatureTable : Table
+    public class HorzHeaderTable : Table
     {
     }
 
     public class HorzDevMetricsTable : Table
+    {
+    }
+
+    public class HorzMetricsTable : Table
+    {
+    }
+
+    public class JustificationTable : Table
     {
     }
 
@@ -164,11 +171,31 @@ namespace Fontaine
     {
     }
 
+    public class LocationIndexTable : Table
+    {
+    }
+
+    public class MaximumProfileTable : Table
+    {
+    }
+
     public class MetadataTable : Table
     {
     }
 
+    public class NamingTable : Table
+    {
+    }
+
+    public class OS2MetricsTable : Table
+    {
+    }
+
     public class PLCFiveTable : Table
+    {
+    }
+
+    public class PostscriptTable : Table
     {
     }
 
