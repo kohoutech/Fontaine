@@ -129,6 +129,20 @@ namespace Fontaine
 
     public class GlyphDataTable : Table
     {
+        int numberOfContours;
+        int xMin;
+        int yMin;
+        int xMax;
+        int yMax;
+
+        public override void parseData()
+        {
+            numberOfContours = data[0] * 256 + data[1];
+            xMin = data[2] * 256 + data[3];
+            yMin = data[4] * 256 + data[5];
+            xMax = data[6] * 256 + data[7];
+            yMax = data[8] * 256 + data[8];
+        }
     }
 
     public class GlyphDefTable : Table
