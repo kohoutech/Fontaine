@@ -187,6 +187,11 @@ namespace Fontaine
 
     public class LocationIndexTable : Table
     {
+        List<int> glyphLocations;
+
+        public override void parseData()
+        {
+        }
     }
 
     public class MaximumProfileTable : Table
