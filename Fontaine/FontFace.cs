@@ -187,15 +187,58 @@ namespace Fontaine
 
     public class LocationIndexTable : Table
     {
-        List<int> glyphLocations;
+        List<uint> glyphLocations;
 
         public override void parseData()
         {
+            glyphLocations = new List<uint>(data.Length / 4);
+            for (int i = 0; i < data.Length; i = i + 4)
+            {
+                uint loc = data[i];
+                loc = loc * 256 + data[i + 1];
+                loc = loc * 256 + data[i + 2];
+                loc = loc * 256 + data[i + 3];
+                glyphLocations.Add(loc);
+            }
         }
     }
 
     public class MaximumProfileTable : Table
     {
+        double version;
+        int numGlyphs;
+        int maxPoints;
+        int maxContours;
+        int maxCompositePoints;
+        int maxCompositeContours;
+        int maxZones;
+        int maxTwilightPoints;
+        int maxStorage;
+        int maxFunctionDefs;
+        int maxInstructionDefs;
+        int maxStackElements;
+        int maxSizeOfInstructions;
+        int maxComponentElements;
+        int maxComponentDepth;
+
+        public override void parseData()
+        {
+            version = 1.0;
+            numGlyphs = data[4] * 256 + data[5];
+            maxPoints = data[6] * 256 + data[7];
+            maxContours = data[8] * 256 + data[9];
+            maxCompositePoints = data[10] * 256 + data[11];
+            maxCompositeContours = data[12] * 256 + data[13];
+            maxZones = data[14] * 256 + data[15];
+            maxTwilightPoints = data[16] * 256 + data[17];
+            maxStorage = data[18] * 256 + data[19];
+            maxFunctionDefs = data[20] * 256 + data[21];
+            maxInstructionDefs = data[22] * 256 + data[23];
+            maxStackElements = data[24] * 256 + data[25];
+            maxSizeOfInstructions = data[26] * 256 + data[27];
+            maxComponentElements = data[28] * 256 + data[29];
+            maxComponentDepth = data[30] * 256 + data[31];
+        }
     }
 
     public class MetadataTable : Table
