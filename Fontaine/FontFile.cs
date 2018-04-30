@@ -24,6 +24,7 @@ using System.Text;
 using System.IO;
 
 //open type file specification at https://docs.microsoft.com/en-us/typography/opentype/spec/
+//true type file specification at https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6.html
 
 namespace Fontaine
 {

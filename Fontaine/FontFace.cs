@@ -82,19 +82,19 @@ namespace Fontaine
         public int numTables;
     }
 
-    public class ControlValueTable : Table
+    public class ControlValueTable : Table          //cvt
     {
     }
 
-    public class ControlValueProgramTable : Table
+    public class ControlValueProgramTable : Table       //prep
     {
     }
 
-    public class DigitalSignatureTable : Table
+    public class DigitalSignatureTable : Table          //DSIG
     {
     }
 
-    public class FontHeaderTable : Table
+    public class FontHeaderTable : Table        //head
     {
         int majorVersion;
         int minorVersion;
@@ -127,7 +127,7 @@ namespace Fontaine
     {
     }
 
-    public class GlyphDataTable : Table
+    public class GlyphDataTable : Table     //glyp
     {
         int numberOfContours;
         int xMin;
@@ -161,15 +161,55 @@ namespace Fontaine
     {
     }
 
-    public class HorzHeaderTable : Table
+    public class HorzHeaderTable : Table        //hhea
     {
+        int majorVersion;
+        int minorVersion;
+        int ascender;
+        int descender;
+        int lineGap;
+        int advanceWidthMax;
+        int minLeftSideBearing;
+        int minRightSideBearing;
+        int xMaxExtent;
+        int caretSlopeRise;
+        int caretSlopeRun;
+        int caretOffset;
+        int res1;
+        int res2;
+        int res3;
+        int res4;
+        int metricDataFormat;
+        int numberOfHMetrics;
+
+        public override void parseData()
+        {
+            majorVersion = data[0] * 256 + data[1];
+            minorVersion = data[2] * 256 + data[3];
+            ascender = data[4] * 256 + data[5];
+            descender = data[6] * 256 + data[7];
+            lineGap = data[8] * 256 + data[9];
+            advanceWidthMax = data[10] * 256 + data[11];
+            minLeftSideBearing = data[12] * 256 + data[13];
+            minRightSideBearing = data[14] * 256 + data[15];
+            xMaxExtent = data[16] * 256 + data[17];
+            caretSlopeRise = data[18] * 256 + data[19];
+            caretSlopeRun = data[20] * 256 + data[21];
+            caretOffset = data[22] * 256 + data[23];
+            res1 = data[24] * 256 + data[25];
+            res2 = data[26] * 256 + data[27];
+            res3 = data[28] * 256 + data[29];
+            res4 = data[30] * 256 + data[31];
+            metricDataFormat = data[32] * 256 + data[33];
+            numberOfHMetrics = data[34] * 256 + data[35];
+        }
     }
 
     public class HorzDevMetricsTable : Table
     {
     }
 
-    public class HorzMetricsTable : Table
+    public class HorzMetricsTable : Table       //hmtx
     {
     }
 
@@ -185,7 +225,7 @@ namespace Fontaine
     {
     }
 
-    public class LocationIndexTable : Table
+    public class LocationIndexTable : Table         //loca
     {
         List<uint> glyphLocations;
 
@@ -203,7 +243,7 @@ namespace Fontaine
         }
     }
 
-    public class MaximumProfileTable : Table
+    public class MaximumProfileTable : Table        //maxp
     {
         double version;
         int numGlyphs;
@@ -245,7 +285,7 @@ namespace Fontaine
     {
     }
 
-    public class NamingTable : Table
+    public class NamingTable : Table        //name
     {
     }
 
